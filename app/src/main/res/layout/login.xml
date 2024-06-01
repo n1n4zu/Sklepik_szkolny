@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/EmailText"
+        android:layout_width="121dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="73dp"
+        android:text="@string/e_mail"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/EmailEdit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <EditText
+        android:id="@+id/EmailEdit"
+        android:layout_width="262dp"
+        android:layout_height="61dp"
+        android:ems="10"
+        android:hint="@string/e_mail"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/HasloText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EmailText" />
+
+    <TextView
+        android:id="@+id/HasloText"
+        android:layout_width="92dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="67dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/has_o"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/HasloEdit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EmailEdit" />
+
+    <EditText
+        android:id="@+id/HasloEdit"
+        android:layout_width="242dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="7dp"
+        android:ems="10"
+        android:hint="@string/has_o"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HasloText" />
+
+    <Button
+        android:id="@+id/ButtonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="334dp"
+        android:text="Zaloguj się"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HasloEdit" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="251dp"
+        android:layout_height="260dp"
+        android:layout_marginTop="68dp"
+        app:layout_constraintBottom_toTopOf="@+id/EmailText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/meritum1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
