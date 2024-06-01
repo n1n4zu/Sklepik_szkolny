@@ -18,32 +18,6 @@ import bug.busters.activities.LoginActivity;
 import bug.busters.databinding.ActivityMainBinding;
 import bug.busters.utils.SessionManager;
 
-//TODO połącznie z serwerem -> Done
-//TODO baza danych na serwerze -> Done
-//TODO wyświetlenie produktów w HomeFragment -> Done
-//TODO poprawić zdjęcia (na koniec) -> Probably done
-//TODO dodawanie do koszyka -> Done
-//TODO wybór przerwy (Na koniec) -> Do prezentacji (w planach rozwojowych aplikacji)
-//TODO wyświetlanie koszyka -> Done
-//TODO usuwanie z koszyka -> Done
-//TODO składanie zamówienia -> Done
-//TODO logowanie -> Done
-//TODO logowanie z rolą dla klienta -> Done
-//TODO logowanie z rolą dla sklepikarza -> Done
-//TODO logowanie z rolą -> Done
-//TODO widok sklepikarza -> Done
-//TODO wyświetlenie zamówień w HomeFragment -> Done
-//TODO modyfikacja statusu zamówień (w trakcie, zrealizowane, anulowane) -> Done
-//TODO sesja -> Done
-//TODO twoje zamówienia -> Done
-//TODO powiadomienia (w aplikacji) -> Do prezentacji (w planach rozwojowych aplikacji)
-//TODO odświeżanie koszyka zamówień po zmianie statusu -> Do prezentacji (w planach rozwojowych aplikacji)
-//TODO usuwanie rekordów zamówień codziennie o półnicy -> Do prezentacji (w planach rozwojowych aplikacji)
-//TODO zmniejszanie ilości produktów w bazie danych po dodaniu do zamówienia
-//TODO front end -> Done
-//TODO komentarze -> Done
-//TODO javadoc -> In progress
-
 /**
  * Główna klasa i głowna aktywność aplikacji.
  * @author Kryspin Dziarek i Jakub Rybczyński
