@@ -64,7 +64,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         String imageName = product.getObraz();
         int resId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
 
-        if (resId != 0) { // 0 means not found
+        if (resId != 0) {
             holder.ivProductImage.setImageResource(resId);
         } else {
             holder.ivProductImage.setImageResource(R.drawable.meritum);
