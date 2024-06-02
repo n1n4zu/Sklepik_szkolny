@@ -18,16 +18,30 @@ import bug.busters.products.Products;
 import bug.busters.R;
 import bug.busters.cart.CartManager;
 
+/**
+ * Klasa adaptera do wyświetlania produktów
+ */
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private List<Products> productList;
     private Context context;
 
+    /**
+     * Konstruktor
+     * @param context Kontekst
+     * @param productList Lista produktów
+     */
     public ProductAdapter(Context context, List<Products> productList) {
         this.context = context;
         this.productList = productList;
     }
 
+    /**
+     * Tworzy nowy ViewHolder
+     * @param parent ViewGroup
+     * @param viewType Typ widoku
+     * @return ViewHolder
+     */
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,6 +49,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return new ProductViewHolder(view);
     }
 
+    /**
+     * Podłącza dane do widoku
+     * @param holder ViewHolder
+     * @param position Pozycja
+     */
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Products product = productList.get(position);
@@ -42,40 +61,51 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tvProductQuantity.setText("Ilość: " + String.valueOf(product.getIlosc()));
         holder.tvProductPrice.setText("Cena: " + String.valueOf(product.getCena()) + " zł");
 
-        // Get resource identifier from string
-        String imageName = product.getObraz() + ".jpg";
+        String imageName = product.getObraz();
         int resId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
 
-        // Set image resource
         if (resId != 0) { // 0 means not found
             holder.ivProductImage.setImageResource(resId);
         } else {
-            // Handle the case where the image resource is not found
-            holder.ivProductImage.setImageResource(R.drawable.meritum); // Use a placeholder image
+            holder.ivProductImage.setImageResource(R.drawable.meritum);
         }
 
         holder.buttonAddToCart.setOnClickListener(v -> {
             CartManager.getInstance().addToCart(product);
-            // You can add a Toast message or update UI to notify the user
             Toast.makeText(context, product.getNazwa() + " dodano do koszyka", Toast.LENGTH_SHORT).show();
         });
     }
 
+    /**
+     * Zwraca ilość elementów w liście
+     * @return Liczba elementów
+     */
     @Override
     public int getItemCount() {
         return productList.size();
     }
 
+    /**
+     * Aktualizuje listę produktów
+     * @param products Lista produktów
+     */
     public void updateProducts(List<Products> products) {
         this.productList = products;
         notifyDataSetChanged();
     }
 
+    /**
+     * Klasa ViewHolder
+     */
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView tvProductName, tvProductQuantity, tvProductPrice;
         ImageView ivProductImage;
         Button buttonAddToCart;
 
+        /**
+         * Konstruktor
+         * @param itemView Widok
+         */
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
             tvProductName = itemView.findViewById(R.id.tvProductName);
