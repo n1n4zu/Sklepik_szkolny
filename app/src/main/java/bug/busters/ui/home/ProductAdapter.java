@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import bug.busters.products.Products;
@@ -65,9 +67,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         int resId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
 
         if (resId != 0) {
-            holder.ivProductImage.setImageResource(resId);
+            Glide.with(context)
+                    .load(resId)
+                    .placeholder(R.drawable.meritum) // opcjonalnie placeholder
+                    .error(R.drawable.meritum) // opcjonalnie obraz błędu
+                    .into(holder.ivProductImage);
         } else {
-            holder.ivProductImage.setImageResource(R.drawable.meritum);
+            Glide.with(context)
+                    .load(R.drawable.meritum)
+                    .into(holder.ivProductImage);
         }
 
         holder.buttonAddToCart.setOnClickListener(v -> {

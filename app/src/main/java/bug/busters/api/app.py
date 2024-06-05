@@ -35,7 +35,7 @@ def get_users_data():
 def place_order():
     order_data = request.get_json()
     cart_items = order_data.get('cartItems')
-    user_id = order_data.get('userId')  # Pobranie ID użytkownika z danych zapytania
+    user_id = order_data.get('userId')
 
     connection = pymysql.connect(host='localhost', user='root', password='Password_123', database='sklepik', cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
@@ -50,7 +50,9 @@ def place_order():
         id_order = cursor.fetchall()
 
         for item in cart_items:
-            cursor.execute(f"INSERT INTO details (id_product, ilosc, cena, id_order) VALUES ({item['product']['id']}, {item['quantity']}, {item['product']['cena']}, {id_order[0]['MAX(id_order)']})")
+            cursor.execute(f"INSERT INTO details (id_product, ilosc, cena, id_order) VALUES ({item['product']['id_product']}, {item['quantity']}, {item['product']['cena']}, {id_order[0]['MAX(id_order)']})")
+
+            cursor.execute(f"UPDATE products SET ilosc = ilosc - {item['quantity']} WHERE id_product = {item['product']['id_product']}")
 
         connection.commit()
     except Exception as e:
