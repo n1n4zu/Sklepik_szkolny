@@ -77,36 +77,34 @@ public class CartManager {
 
         MyApi myApi = retrofit.create(MyApi.class);
 
-        Call<List<Products>> call = myApi.getProducts(); // Pobranie listy produktów z bazy danych
+        // Pobranie listy produktów z bazy danych
+        Call<List<Products>> call = myApi.getProducts();
         call.enqueue(new Callback<List<Products>>() {
             @Override
             public void onResponse(Call<List<Products>> call, Response<List<Products>> response) {
                 if (response.isSuccessful()) {
                     List<Products> productList = response.body();
+                    int availableQuantity = 0;
+
                     // Sprawdzenie dostępności produktu w bazie danych
-                    boolean productAvailable = false;
                     for (Products p : productList) {
-                        if (p.getId_product() == product.getId_product() && p.getIlosc() > 0) {
-                            productAvailable = true;
+                        if (p.getId_product() == product.getId_product()) {
+                            availableQuantity = p.getIlosc();
                             break;
                         }
                     }
-                    if (productAvailable) {
-                        // Produkt dostępny w bazie danych, można dodać do koszyka
-                        for (CartItem item : cartItems) {
-                            if (item.getProduct().getId_product() == product.getId_product()) {
-                                item.setQuantity(item.getQuantity() + 1);
-                                notifyCartChanged();
-                                callback.onSuccess();
-                                return;
-                            }
-                        }
-                        cartItems.add(new CartItem(product, 1));
-                        notifyCartChanged();
+
+                    // Sprawdzenie ilości produktu w koszyku
+                    int currentQuantityInCart = getCurrentQuantityInCart(product);
+
+                    // Sprawdzenie, czy ilość produktu w koszyku nie przekracza dostępnej ilości w bazie danych
+                    if (currentQuantityInCart < availableQuantity) {
+                        // Produkt dostępny w bazie danych i ilość w koszyku nie przekracza dostępnej ilości w bazie danych
+                        addOrUpdateCartItem(product);
                         callback.onSuccess();
                     } else {
-                        // Produkt niedostępny w bazie danych
-                        callback.onFailure(new Exception("Produkt niedostępny w wystarczającej ilości"));
+                        // Produkt niedostępny w bazie danych lub ilość w koszyku przekracza dostępną ilość w bazie danych
+                        callback.onFailure(new Exception("Nie można dodać więcej sztuk tego produktu do koszyka"));
                     }
                 } else {
                     callback.onFailure(new Exception("Response not successful"));
@@ -119,6 +117,38 @@ public class CartManager {
             }
         });
     }
+
+    /**
+     * Metoda do dodania lub aktualizacji elementu w koszyku
+     * @param product Produkt do dodania
+     */
+    private void addOrUpdateCartItem(Products product) {
+        for (CartItem item : cartItems) {
+            if (item.getProduct().getId_product() == product.getId_product()) {
+                item.setQuantity(item.getQuantity() + 1);
+                notifyCartChanged();
+                return;
+            }
+        }
+        cartItems.add(new CartItem(product, 1));
+        notifyCartChanged();
+    }
+
+    /**
+     * Metoda do pobierania aktualnej ilości produktu w koszyku
+     * @param product Produkt
+     * @return Aktualna ilość produktu w koszyku
+     */
+    private int getCurrentQuantityInCart(Products product) {
+        int currentQuantityInCart = 0;
+        for (CartItem item : cartItems) {
+            if (item.getProduct().getId_product() == product.getId_product()) {
+                currentQuantityInCart += item.getQuantity();
+            }
+        }
+        return currentQuantityInCart;
+    }
+
 
 
     /**
