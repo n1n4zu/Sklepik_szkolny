@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
         SessionManager sessionManager = new SessionManager(this);
         int userId = sessionManager.getUserId();
 
-        Log.d("ID", String.valueOf(userId));
-
         if (userId == -1) {
             // Jeśli użytkownik nie jest zalogowany, przekieruj do logowania
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);

@@ -79,8 +79,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
         holder.buttonAddToCart.setOnClickListener(v -> {
-            CartManager.getInstance().addToCart(product);
-            Toast.makeText(context, product.getNazwa() + " dodano do koszyka", Toast.LENGTH_SHORT).show();
+            CartManager.getInstance().addToCart(product, new CartManager.AddToCartCallback() {
+                @Override
+                public void onSuccess() {
+                    // Produkt dodano do koszyka, możesz wyświetlić odpowiedni komunikat
+                    Toast.makeText(context, product.getNazwa() + " dodano do koszyka", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    // Nie udało się dodać produktu do koszyka, wyświetl odpowiedni komunikat błędu
+                    Toast.makeText(context, "Nie udało się dodać produktu do koszyka: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
         });
     }
 

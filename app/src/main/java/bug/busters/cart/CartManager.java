@@ -3,7 +3,12 @@ package bug.busters.cart;
 import java.util.ArrayList;
 import java.util.List;
 
+import bug.busters.api.MyApi;
 import bug.busters.products.Products;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Klasa zarządzająca koszykiem
@@ -54,21 +59,67 @@ public class CartManager {
         this.cartChangeListener = listener;
     }
 
+    public interface AddToCartCallback {
+        void onSuccess();
+        void onFailure(Throwable t);
+    }
+
+
     /**
      * Metoda do dodawania produktu do koszyka
      * @param product Produkt do dodania
      */
-    public void addToCart(Products product) {
-        for (CartItem item : cartItems) {
-            if (item.getProduct().getId_product() == product.getId_product()) {
-                item.setQuantity(item.getQuantity() + 1);
-                notifyCartChanged();
-                return;
+    public void addToCart(Products product, AddToCartCallback callback) {
+        retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .baseUrl("http://192.168.0.48:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        MyApi myApi = retrofit.create(MyApi.class);
+
+        Call<List<Products>> call = myApi.getProducts(); // Pobranie listy produktów z bazy danych
+        call.enqueue(new Callback<List<Products>>() {
+            @Override
+            public void onResponse(Call<List<Products>> call, Response<List<Products>> response) {
+                if (response.isSuccessful()) {
+                    List<Products> productList = response.body();
+                    // Sprawdzenie dostępności produktu w bazie danych
+                    boolean productAvailable = false;
+                    for (Products p : productList) {
+                        if (p.getId_product() == product.getId_product() && p.getIlosc() > 0) {
+                            productAvailable = true;
+                            break;
+                        }
+                    }
+                    if (productAvailable) {
+                        // Produkt dostępny w bazie danych, można dodać do koszyka
+                        for (CartItem item : cartItems) {
+                            if (item.getProduct().getId_product() == product.getId_product()) {
+                                item.setQuantity(item.getQuantity() + 1);
+                                notifyCartChanged();
+                                callback.onSuccess();
+                                return;
+                            }
+                        }
+                        cartItems.add(new CartItem(product, 1));
+                        notifyCartChanged();
+                        callback.onSuccess();
+                    } else {
+                        // Produkt niedostępny w bazie danych
+                        callback.onFailure(new Exception("Produkt niedostępny w wystarczającej ilości"));
+                    }
+                } else {
+                    callback.onFailure(new Exception("Response not successful"));
+                }
             }
-        }
-        cartItems.add(new CartItem(product, 1));
-        notifyCartChanged();
+
+            @Override
+            public void onFailure(Call<List<Products>> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
     }
+
 
     /**
      * Metoda do usuwania produktu z koszyka

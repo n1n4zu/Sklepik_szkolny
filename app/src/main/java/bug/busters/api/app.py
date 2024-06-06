@@ -40,19 +40,24 @@ def place_order():
     connection = pymysql.connect(host='localhost', user='root', password='Password_123', database='sklepik', cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
 
-    cursor.execute("SELECT MAX(id_order) FROM orders")
-    id_order = cursor.fetchall()
-
     try:
-        cursor.execute(f"INSERT INTO orders (id_order, id_user, status) VALUES ({id_order[0]['MAX(id_order)']}, {user_id}, 'w trakcie')")
+        for item in cart_items:
+            cursor.execute("SELECT ilosc FROM products WHERE id_product = %s", (item['product']['id_product'],))
+            product = cursor.fetchone()
+            if not product or product['ilosc'] < item['quantity']:
+                return jsonify({'error': f"Produkt {item['product']['name']} nie jest dostępny w wystarczającej ilości."}), 400
 
-        cursor.execute("SELECT MAX(id_order) FROM orders")
-        id_order = cursor.fetchall()
+        cursor.execute("SELECT MAX(id_order) AS max_id_order FROM orders")
+        result = cursor.fetchone()
+        id_order = (result['max_id_order'] or 0) + 1
+
+        cursor.execute("INSERT INTO orders (id_order, id_user, status) VALUES (%s, %s, 'w trakcie')", (id_order, user_id))
 
         for item in cart_items:
-            cursor.execute(f"INSERT INTO details (id_product, ilosc, cena, id_order) VALUES ({item['product']['id_product']}, {item['quantity']}, {item['product']['cena']}, {id_order[0]['MAX(id_order)']})")
-
-            cursor.execute(f"UPDATE products SET ilosc = ilosc - {item['quantity']} WHERE id_product = {item['product']['id_product']}")
+            cursor.execute("INSERT INTO details (id_product, ilosc, cena, id_order) VALUES (%s, %s, %s, %s)",
+                           (item['product']['id_product'], item['quantity'], item['product']['cena'], id_order))
+            cursor.execute("UPDATE products SET ilosc = ilosc - %s WHERE id_product = %s",
+                           (item['quantity'], item['product']['id_product']))
 
         connection.commit()
     except Exception as e:

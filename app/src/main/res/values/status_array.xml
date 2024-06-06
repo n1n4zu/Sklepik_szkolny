@@ -2,6 +2,7 @@
     <string-array name="status_array">
         <item>W trakcie</item>
         <item>Zrealizowane</item>
+        <item>Częściowo zrealizowane</item>
         <item>Anulowane</item>
     </string-array>
 </resources>

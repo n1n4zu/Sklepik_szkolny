@@ -61,7 +61,7 @@ public class GalleryFragment extends Fragment {
 
             // Przelicza cenę
             double totalPrice = calculateTotalPrice(cartItems);
-            binding.tvTotalPrice.setText("Total Price: " + totalPrice + " zł");
+            binding.tvTotalPrice.setText("Cena całkowita: " + totalPrice + " zł");
         });
 
         // Dodaje guzik do zamówienia
@@ -74,19 +74,19 @@ public class GalleryFragment extends Fragment {
                 retrofit.placeOrder(cartItems, userId, new Retrofit.OrderCallback() {
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(getContext(), "Order placed successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Zamówienie zostało złożone", Toast.LENGTH_SHORT).show();
                         // Czyści koszyk po złożeniu zamówienia
                         CartManager.getInstance().clearCart();
                         updateCartItems(); // Aktualizuje koszyk po złożeniu zamówienia
                     }
 
-                    /**
-                     * Obsługa błędu
-                     * @param t Błąd
-                     */
                     @Override
                     public void onFailure(Throwable t) {
-                        Toast.makeText(getContext(), "Nie udało się złożyć zamówienia", Toast.LENGTH_SHORT).show();
+                        if (t.getMessage().contains("Nieprawidłowe zapytanie")) {
+                            Toast.makeText(getContext(), "Nie ma wystarczającej ilości produktów w sklepiku", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Nie udało się złożyć zamówienia", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             } else {
