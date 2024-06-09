@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import bug.busters.activities.LoginActivity;
+import bug.busters.activities.MainActivityOrders;
 import bug.busters.databinding.ActivityMainBinding;
 import bug.busters.utils.SessionManager;
 
@@ -66,8 +67,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (userRole == 'S') {
             // Przenieś do widoku sklepikarza
-            navController.navigate(R.id.nav_orders);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false); // Wyłącz przycisk cofania
+            Intent intent = new Intent(MainActivity.this, MainActivityOrders.class);
+            startActivity(intent);
+            finish();
         } else {
             // Przenieś do widoku klienta
             navController.navigate(R.id.nav_home);

@@ -35,7 +35,9 @@
             android:name=".MainActivity"
             android:theme="@style/Theme.Sklepik.NoActionBar" />
         <activity android:name=".activities.MainActivityHome" />
-        <activity android:name=".activities.MainActivityOrders" />
+        <activity
+            android:name=".activities.MainActivityOrders"
+            android:theme="@style/Theme.Sklepik.NoActionBar" />
 
     </application>
 

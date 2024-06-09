@@ -17,4 +17,7 @@
     <string name="koszyk">Koszyk</string>
     <string name="menu_orders">Zamówienia</string>
     <string name="twoje_zam_wienia">Twoje zamówienia</string>
+    <string name="zam_wienia">Zamówienia</string>
+    <string name="produkty">Produkty</string>
+    <string name="dodaj_produkt">Dodaj Produkt</string>
 </resources>
