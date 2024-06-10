@@ -1,4 +1,4 @@
-package bug.busters.ui.orders;
+package bug.busters.ui.editproducts;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,7 +12,7 @@ import bug.busters.api.Retrofit;
 /**
  * Klasa ViewModel dla widoku zamówień
  */
-public class OrdersViewModel extends ViewModel {
+public class EditProductsViewModel extends ViewModel {
 
     // Lista zamówień
     private final MutableLiveData<List<Order>> orders = new MutableLiveData<>();

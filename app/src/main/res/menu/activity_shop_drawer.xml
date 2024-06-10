@@ -7,5 +7,8 @@
         <item
             android:id="@+id/nav_orders"
             android:title="@string/zam_wienia" />
+        <item
+            android:id="@+id/nav_edit_prod"
+            android:title="@string/edytuj_produkty" />
     </group>
 </menu>

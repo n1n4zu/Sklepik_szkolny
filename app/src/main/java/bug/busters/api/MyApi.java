@@ -65,4 +65,8 @@ public interface MyApi {
      */
     @GET("getuserorder")
     Call<List<Order>> getUserOrders(@Query("id") int id);
+
+    @PUT("editproduct")
+    Call<Void> editProduct(@Body Products product);
+
 }

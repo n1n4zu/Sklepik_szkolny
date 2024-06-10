@@ -10,6 +10,14 @@ public class Products {
     private double cena;
     private String obraz;
 
+    public Products(int id, String nazwa, double cena, int ilosc) {
+        this.id_product = id;
+        this.nazwa = nazwa;
+        this.cena = cena;
+        this.ilosc = ilosc;
+    }
+
+
     /**
      * Getter pola id_product
      * @return id_product

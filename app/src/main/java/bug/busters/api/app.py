@@ -113,5 +113,30 @@ def change_order_status():
 
     return jsonify({'status': 'success'}), 200
 
+@app.route('/editproduct', methods=['PUT'])
+def edit_product():
+    product_data = request.get_json()
+    product_id = product_data.get('id_product')
+    new_name = product_data.get('name')
+    new_price = product_data.get('price')
+    new_quantity = product_data.get('quantity')
+
+    connection = pymysql.connect(host='localhost', user='root', password='Password_123', database='sklepik', cursorclass=pymysql.cursors.DictCursor)
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("UPDATE products SET nazwa = %s, cena = %s, ilosc = %s WHERE id_product = %s",
+                       (new_name, new_price, new_quantity, product_id))
+        connection.commit()
+    except Exception as e:
+        connection.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
+
+    return jsonify({'status': 'success'}), 200
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

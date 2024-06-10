@@ -39,7 +39,7 @@ public class MainActivityOrders extends AppCompatActivity {
         NavigationView navigationView = binding.navViewShop;
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_orders, R.id.nav_home) //, R.id.nav_products, R.id.nav_add_product)
+                R.id.nav_orders, R.id.nav_edit_prod)//, R.id.nav_add_product)
                 .setOpenableLayout(drawer)
                 .build();
 

@@ -321,4 +321,31 @@ public class Retrofit {
             }
         });
     }
+
+    public void editProduct(Products product, OrderCallback callback) {
+        retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .baseUrl("http://192.168.0.48:5000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        MyApi myApi = retrofit.create(MyApi.class);
+
+        Call<Void> call = myApi.editProduct(product);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure(new Exception("Response not successful"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
 }
