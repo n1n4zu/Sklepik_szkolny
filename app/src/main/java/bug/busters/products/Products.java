@@ -17,6 +17,12 @@ public class Products {
         this.ilosc = ilosc;
     }
 
+    public Products(String nazwa, double cena, int ilosc) {
+        this.nazwa = nazwa;
+        this.cena = cena;
+        this.ilosc = ilosc;
+    }
+
 
     /**
      * Getter pola id_product
@@ -56,5 +62,13 @@ public class Products {
      */
     public String getObraz() {
         return obraz;
+    }
+
+    /**
+     * Setter pola obraz
+     * @param obraz
+     */
+    public void setObraz(String obraz) {
+        this.obraz = obraz;
     }
 }

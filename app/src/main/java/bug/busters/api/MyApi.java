@@ -7,10 +7,13 @@ import bug.busters.orders.OrderRequest;
 import bug.busters.products.Products;
 import bug.busters.orders.StatusUpdateRequest;
 import bug.busters.users.Users;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.PUT;
 
@@ -70,5 +73,18 @@ public interface MyApi {
     Call<Void> editProduct(@Body Products product);
 
     @GET("getimagelist")
-    Call<List<String>> getImageList();  // New endpoint to get the list of required images
+    Call<List<String>> getImageList();
+
+    @POST("addproduct")
+    Call<Void> addProduct(@Body Products product);
+
+    /**
+     * Metoda do dodawania pliku obrazu na serwer
+     * @param imagePart Plik obrazu jako część wieloczęściowego żądania (multipart)
+     * @return Nazwa pliku obrazu, jeśli dodanie powiedzie się
+     */
+    @Multipart
+    @POST("uploadimage")
+    Call<List<String>> uploadImage(@Part MultipartBody.Part imagePart);
+
 }

@@ -146,5 +146,41 @@ def get_image_list():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/addproduct', methods=['POST'])
+def add_product():
+    product_data = request.get_json()
+    name = product_data.get('nazwa')
+    quantity = product_data.get('ilosc')
+    price = product_data.get('cena')
+    image = product_data.get('obraz')
+
+    connection = pymysql.connect(host='localhost', user='root', password='Password_123', database='sklepik', cursorclass=pymysql.cursors.DictCursor)
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("INSERT INTO products (nazwa, ilosc, cena, obraz) VALUES (%s, %s, %s, %s)", (name, quantity, price, image))
+        connection.commit()
+    except Exception as e:
+        connection.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
+
+    return jsonify({'status': 'success'}), 200
+
+@app.route('/uploadimage', methods=['POST'])
+def upload_image():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image provided'}), 400
+
+    image = request.files['image']
+    if image.filename == '':
+        return jsonify({'error': 'No image selected'}), 400
+
+    # Zapisujemy plik obrazu do folderu
+    image.save(os.path.join('/var/www/html/images', image.filename))
+    return jsonify([image.filename]), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

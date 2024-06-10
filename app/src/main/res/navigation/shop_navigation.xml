@@ -17,4 +17,10 @@
         android:label="@string/edytuj_produkty"
         tools:layout="@layout/fragment_edit_prod" />
 
+    <fragment
+        android:id="@+id/nav_add_prod"
+        android:name="bug.busters.ui.addnewproduct.AddProductFragment"
+        android:label="@string/dodaj_produkt"
+        tools:layout="@layout/add_product" />
+
 </navigation>
