@@ -69,4 +69,6 @@ public interface MyApi {
     @PUT("editproduct")
     Call<Void> editProduct(@Body Products product);
 
+    @GET("getimagelist")
+    Call<List<String>> getImageList();  // New endpoint to get the list of required images
 }

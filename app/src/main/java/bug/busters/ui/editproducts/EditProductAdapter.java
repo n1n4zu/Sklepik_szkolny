@@ -76,19 +76,14 @@ public class EditProductAdapter extends RecyclerView.Adapter<EditProductAdapter.
             productPriceTextView.setText(String.format("%.2f zł", product.getCena()));
             productQuantityTextView.setText(String.valueOf(product.getIlosc()));
 
-            String imageName = product.getObraz();
-            int resId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
-            if (resId != 0) {
-                Glide.with(context)
-                        .load(resId)
-                        .placeholder(R.drawable.meritum) // Placeholder image
-                        .error(R.drawable.meritum) // Error image
-                        .into(productImageView);
-            } else {
-                Glide.with(context)
-                        .load(R.drawable.meritum)
-                        .into(productImageView);
-            }
+            // Tworzenie pełnego adresu URL obrazu na serwerze
+            String imageUrl = "http://192.168.0.48/images/" + product.getObraz();
+
+            Glide.with(context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.meritum) // Placeholder obrazu
+                    .error(R.drawable.meritum) // Obraz błędu
+                    .into(productImageView);
         }
 
         @Override

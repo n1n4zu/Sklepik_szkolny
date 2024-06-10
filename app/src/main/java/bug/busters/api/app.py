@@ -1,7 +1,7 @@
 # API na serwerze
 
 from flask import Flask, jsonify, request
-import pymysql
+import pymysql, os
 
 app = Flask(__name__)
 
@@ -137,6 +137,14 @@ def edit_product():
 
     return jsonify({'status': 'success'}), 200
 
+@app.route('/getimagelist', methods=['GET'])
+def get_image_list():
+    images_folder = '/var/www/html/images'
+    try:
+        images = os.listdir(images_folder)
+        return jsonify(images)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
