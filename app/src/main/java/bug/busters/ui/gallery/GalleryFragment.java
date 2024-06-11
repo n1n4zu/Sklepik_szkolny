@@ -61,7 +61,7 @@ public class GalleryFragment extends Fragment {
 
             // Przelicza cenę
             double totalPrice = calculateTotalPrice(cartItems);
-            binding.tvTotalPrice.setText("Cena całkowita: " + totalPrice + " zł");
+            binding.tvTotalPrice.setText("Cena całkowita: " + String.format("%.2f zł", totalPrice));
         });
 
         // Dodaje guzik do zamówienia

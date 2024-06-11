@@ -77,8 +77,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         CartItem cartItem = cartItems.get(position);
         holder.tvProductName.setText(cartItem.getProduct().getNazwa());
-        holder.tvProductQuantity.setText(String.valueOf(cartItem.getQuantity()));
-        holder.tvProductPrice.setText(String.valueOf(cartItem.getProduct().getCena()));
+        holder.tvProductQuantity.setText("Ilość: " + String.valueOf(cartItem.getQuantity()));
+        holder.tvProductPrice.setText("Cena: " + String.format("%.2f zł", cartItem.getProduct().getCena()));
 
         holder.btnDelete.setOnClickListener(v -> {
             if (onDeleteClickListener != null) {

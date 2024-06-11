@@ -42,7 +42,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Products product = productList.get(position);
         holder.tvProductName.setText(product.getNazwa());
         holder.tvProductQuantity.setText("Ilość: " + String.valueOf(product.getIlosc()));
-        holder.tvProductPrice.setText("Cena: " + String.valueOf(product.getCena()) + " zł");
+        holder.tvProductPrice.setText("Cena: " + String.format("%.2f zł", product.getCena()));
 
         // Tworzenie pełnego adresu URL obrazu na serwerze
         String imageUrl = "http://192.168.0.48/images/" + product.getObraz();

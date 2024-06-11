@@ -74,7 +74,7 @@ public class EditProductAdapter extends RecyclerView.Adapter<EditProductAdapter.
         public void bind(Products product) {
             productNameTextView.setText(product.getNazwa());
             productPriceTextView.setText(String.format("%.2f zł", product.getCena()));
-            productQuantityTextView.setText(String.valueOf(product.getIlosc()));
+            productQuantityTextView.setText("Ilość: " + String.valueOf(product.getIlosc()));
 
             // Tworzenie pełnego adresu URL obrazu na serwerze
             String imageUrl = "http://192.168.0.48/images/" + product.getObraz();

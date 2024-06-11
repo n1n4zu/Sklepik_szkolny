@@ -82,7 +82,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Orde
         if (position == lastIndex) {
             // Jeśli tak, wyświetlamy sumę cen wszystkich pozycji zamówienia
             holder.tvStatus.setText("Status: " + order.getStatus());
-            holder.tvTotalPrice.setText("Cena do załpaty: " + String.valueOf(totalPrice) + " zł");
+            holder.tvTotalPrice.setText("Cena do załpaty: " + String.format("%.2f zł", totalPrice));
             holder.tvStatus.setVisibility(View.VISIBLE);
             holder.tvTotalPrice.setVisibility(View.VISIBLE);
         } else {

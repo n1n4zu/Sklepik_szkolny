@@ -64,7 +64,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
             holder.tvOrderId.setText(String.valueOf(order.getIdOrder()));
             holder.tvName.setText(order.getImie());
             holder.tvSurname.setText(order.getNazwisko());
-            holder.tvPhoneNumber.setText(order.getNrTel());
+            holder.tvPhoneNumber.setText("Nr telefonu: " + order.getNrTel());
 
             // Resetujemy totalPrice dla nowego zamówienia
             totalPrice = 0.0;
@@ -88,7 +88,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrderViewH
         if (position == lastIndex) {
             // Jeśli tak, wyświetlamy sumę cen wszystkich pozycji zamówienia
             holder.tvStatus.setText("Status: " + order.getStatus());
-            holder.tvTotalPrice.setText("Cena do zapłaty: " + String.valueOf(totalPrice) + " zł");
+            holder.tvTotalPrice.setText("Cena do zapłaty: " + String.format("%.2f zł", totalPrice));
             holder.tvTotalPrice.setVisibility(View.VISIBLE);
             holder.tvStatus.setVisibility(View.VISIBLE);
 
