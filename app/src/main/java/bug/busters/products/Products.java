@@ -17,7 +17,7 @@ public class Products {
         this.ilosc = ilosc;
     }
 
-    public Products(String nazwa, double cena, int ilosc) {
+    public Products(String nazwa, double cena, int ilosc, String obraz) {
         this.nazwa = nazwa;
         this.cena = cena;
         this.ilosc = ilosc;

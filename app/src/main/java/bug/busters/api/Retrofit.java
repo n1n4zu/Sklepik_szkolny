@@ -2,7 +2,6 @@ package bug.busters.api;
 
 import android.util.Log;
 
-import java.io.File;
 import java.util.List;
 
 import bug.busters.cart.CartItem;
@@ -11,9 +10,6 @@ import bug.busters.orders.OrderRequest;
 import bug.busters.products.Products;
 import bug.busters.orders.StatusUpdateRequest;
 import bug.busters.users.Users;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -358,12 +354,7 @@ public class Retrofit {
     }
 
 
-    public void addProduct(Products product, File imageFile, OrderCallback callback) {
-        // Tworzymy ciało żądania z danymi produktu
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), imageFile);
-        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", imageFile.getName(), requestBody);
-
-        // Wysyłamy plik obrazu do serwera
+    public void addProduct(Products product, OrderCallback callback) {
         retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl("http://192.168.0.48:5000/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -371,40 +362,19 @@ public class Retrofit {
 
         MyApi myApi = retrofit.create(MyApi.class);
 
-        Call<List<String>> call = myApi.uploadImage(imagePart);
-        call.enqueue(new Callback<List<String>>() {
+        Call<Void> call = myApi.addProduct(product);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Otrzymujemy nazwę pliku obrazu z serwera
-                    String imageName = response.body().get(0);
-                    // Ustawiamy nazwę pliku obrazu w obiekcie produktu
-                    product.setObraz(imageName);
-
-                    // Dodajemy produkt z nazwą pliku obrazu do bazy danych
-                    Call<Void> addProductCall = myApi.addProduct(product);
-                    addProductCall.enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if (response.isSuccessful()) {
-                                callback.onSuccess();
-                            } else {
-                                callback.onFailure(new Exception("Response not successful"));
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-                            callback.onFailure(t);
-                        }
-                    });
+                    callback.onSuccess();
                 } else {
-                    callback.onFailure(new Exception("Image upload response not successful"));
+                    callback.onFailure(new Exception("Response not successful"));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 callback.onFailure(t);
             }
         });

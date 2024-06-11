@@ -27,19 +27,12 @@
         android:hint="Cena"
         android:inputType="numberDecimal"/>
 
-    <ImageView
-        android:id="@+id/productImagePreview"
-        android:layout_width="match_parent"
-        android:layout_height="225dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="Podgląd zdjęcia produktu"
-        android:scaleType="centerCrop" />
-
-    <Button
-        android:id="@+id/selectImageButton"
+    <EditText
+        android:id="@+id/productImageName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wybierz obraz"/>
+        android:hint="Nazwa obrazu"
+        android:inputType="text"/>
 
     <Button
         android:id="@+id/addProductButton"

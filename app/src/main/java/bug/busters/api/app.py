@@ -154,6 +154,10 @@ def add_product():
     price = product_data.get('cena')
     image = product_data.get('obraz')
 
+    # Validate the received data
+    if not name or not isinstance(quantity, int) or not isinstance(price, (int, float)) or not image:
+        return jsonify({'error': 'Invalid input data'}), 400
+
     connection = pymysql.connect(host='localhost', user='root', password='Password_123', database='sklepik', cursorclass=pymysql.cursors.DictCursor)
     cursor = connection.cursor()
 
